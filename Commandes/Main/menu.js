@@ -1,63 +1,44 @@
-// 𝐂𝐑𝐄𝐀𝐓𝐄𝐃 𝐁𝐘 𝐂𝐎𝐎𝐋_𝐊𝐈𝐃 𝐓𝐄𝐂𝐇💙
-// ⚠️𝐃𝐎 𝐍𝐎𝐓 𝐌𝐎𝐃𝐈𝐅𝐘 𝐓𝐇𝐈𝐒 𝐅𝐈𝐋𝐄 ⚠️
-// 𝐂𝐎𝐍𝐓𝐀𝐂𝐓 𝐌𝐄 𝐅𝐎𝐑 𝐌𝐎𝐑𝐄 𝐄𝐗𝐂𝐋𝐔𝐒𝐈𝐕𝐄 .𝐉𝐒
+// Commandes/main/menu.js
+// Created by cool kid tech — do not modify this file
 
-const menu = (prefix, senderName) => {
-  return `
-╭──〔 *NOVA-MD MENU* 〕──╮
-│ Hello, *${senderName}*!
-│ Prefix: *${prefix}*
-│ Bot Name: *NOVA-MD*
-│ Time: *${new Date().toLocaleString()}*
-│
-├─❏ *🛠️ Main Commands*
-│ • ${prefix}menu
-│ • ${prefix}help
-│ • ${prefix}info
-│ • ${prefix}speed
-│ • ${prefix}owner
-│
-├─❏ *👥 Group Tools*
-│ • ${prefix}kick @user
-│ • ${prefix}add [number]
-│ • ${prefix}promote @user
-│ • ${prefix}demote @user
-│ • ${prefix}tagall
-│ • ${prefix}group open/close
-│
-├─❏ *📥 Downloads*
-│ • ${prefix}ytmp3 [link]
-│ • ${prefix}ytmp4 [link]
-│ • ${prefix}tiktok [link]
-│ • ${prefix}mediafire [link]
-│
-├─❏ *🎮 Fun Commands*
-│ • ${prefix}joke
-│ • ${prefix}meme
-│ • ${prefix}truth
-│ • ${prefix}dare
-│ • ${prefix}rate @user
-│
-├─❏ *🧰 Tools & Convert*
-│ • ${prefix}sticker
-│ • ${prefix}toimg
-│ • ${prefix}tourl
-│ • ${prefix}tinyurl
-│
-├─❏ *🧠 AI & Search*
-│ • ${prefix}ai [query]
-│ • ${prefix}google [query]
-│ • ${prefix}lyrics [song]
-│ • ${prefix}play [song]
-│
-├─❏ *👑 Owner Commands*
-│ • ${prefix}shutdown
-│ • ${prefix}restart
-│ • ${prefix}eval
-│ • ${prefix}broadcast [text]
-│
-╰─〔 𝐏𝐎𝐖𝐄𝐑𝐄𝐃 𝐁𝐘 𝐂𝐎𝐎𝐋_𝐊𝐈𝐃 𝐓𝐄𝐂𝐇 〕
-`;
-};
+const { cmd, commands } = require("../command");
+const pkg = require("../../package.json");
 
-module.exports = menu;
+cmd({
+  pattern: "menu",
+  alias: ["help", "commands", "cmds"],
+  desc: "Show all available commands",
+  category: "main",
+  filename: __filename
+},
+async (conn, mek, m, { pushname, prefix, reply }) => {
+  try {
+    const grouped = {};
+
+    for (let command of commands) {
+      const cat = command.category || "other";
+      if (!grouped[cat]) grouped[cat] = [];
+      grouped[cat].push(`${prefix}${command.pattern}`);
+    }
+
+    let menuText = `*╭───❰ NOVA-MD MENU ❱───⊷*\n│\n`;
+    menuText += `│ *User:* ${pushname || "Guest"}\n`;
+    menuText += `│ *Commands:* ${commands.length}\n`;
+    menuText += `│ *Version:* ${pkg.version}\n│\n`;
+
+    for (let category in grouped) {
+      menuText += `│──『 ${category.toUpperCase()} 』\n`;
+      grouped[category].forEach(cmd => {
+        menuText += `│ • ${cmd}\n`;
+      });
+      menuText += `│\n`;
+    }
+
+    menuText += `╰───⭓ ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴄᴏᴏʟ ᴋɪᴅ`;
+
+    reply(menuText);
+  } catch (e) {
+    console.error(e);
+    reply("❌ Error displaying menu.");
+  }
+});

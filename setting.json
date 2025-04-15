@@ -1,0 +1,15 @@
+{
+  "botName": "NOVA-MD",
+  "ownerName": "Cool Kid",
+  "owner": "254107065646", 
+  "prefix": ".",
+  "autoread": true,
+  "autotyping": false,
+  "alwaysonline": false,
+  "sessionName": "cool sessions",
+  "footer": "ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴄᴏᴏʟ ᴋɪᴅ",
+  "reactEmoji": "⚡",
+  "themeEmoji": "🚀",
+  "database": true,
+  "version": "1.0.0"
+}

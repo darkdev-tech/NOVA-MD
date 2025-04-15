@@ -1,28 +1,28 @@
-// 𝐂𝐑𝐄𝐀𝐓𝐄𝐃 𝐁𝐘 𝐂𝐎𝐎𝐋_𝐊𝐈𝐃 𝐓𝐄𝐂𝐇💙
-// Meme Command
+// Commandes/fun/meme.js
+// Created by cool kid tech — do not modify this file
 
-const axios = require('axios');
+const { cmd } = require("../command");
+const axios = require("axios");
 
-module.exports = {
-  name: 'meme',
-  category: 'fun',
-  desc: 'Sends a random meme',
-  async execute(sock, m) {
-    const { sendMessage } = sock;
-    const { from } = m;
+cmd({
+  pattern: "meme",
+  desc: "Send a random meme",
+  category: "fun",
+  react: "😂",
+  filename: __filename
+},
+async (conn, mek, m, { reply }) => {
+  try {
+    const res = await axios.get("https://meme-api.com/gimme");
+    const meme = res.data;
 
-    try {
-      const res = await axios.get('https://meme-api.com/gimme');
-      const { title, url, postLink, subreddit } = res.data;
+    await conn.sendMessage(m.chat, {
+      image: { url: meme.url },
+      caption: `*${meme.title}*\n\nFrom: _${meme.subreddit}_`
+    }, { quoted: mek });
 
-      await sendMessage(from, {
-        image: { url },
-        caption: `*${title}*\n🔗 ${postLink}\n📷 From r/${subreddit}`
-      }, { quoted: m });
-
-    } catch (err) {
-      await sendMessage(from, { text: '❌ Failed to fetch a meme. Try again later!' }, { quoted: m });
-      console.error('Meme Error:', err.message);
-    }
+  } catch (e) {
+    console.error("Meme fetch error:", e);
+    reply("❌ Couldn't fetch meme. Try again later.");
   }
-};
+});

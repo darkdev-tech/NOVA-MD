@@ -1,1 +1,20 @@
-
+{
+  "creds": {
+    "noiseKey": { "private": "...", "public": "..." },
+    "signedIdentityKey": "...",
+    "signedPreKey": "...",
+    "registrationId": 123456789,
+    "advSecretKey": "...",
+    "processedHistoryMessages": [],
+    "nextPreKeyId": 1,
+    "firstUnuploadedPreKeyId": 1,
+    "accountSettings": { "unarchiveChats": false },
+    ...
+  },
+  "keys": {
+    "preKeys": { "1": "..." },
+    "sessions": { "abc123@whatsapp.net": "..." },
+    "senderKeys": {},
+    ...
+  }
+}

@@ -1,1 +1,15 @@
-
+{
+  "prefix": ".",
+  "ownerNumber": ["1234567890@s.whatsapp.net"],
+  "ownerName": "Cool Kid",
+  "botName": "NOVA-MD",
+  "footer": "ᴘᴏᴡᴇʀᴅ ʙʏ ᴄᴏᴏʟ ᴋɪᴅ",
+  "website": "https://github.com/darkdev-tech/NOVA-MD",
+  "autoread": true,
+  "autotyping": true,
+  "autobio": false,
+  "antiCall": true,
+  "autoBlock": true,
+  "themeEmoji": "⚡",
+  "sessionName": "session"
+}

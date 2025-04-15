@@ -1,25 +1,23 @@
-// 𝐂𝐑𝐄𝐀𝐓𝐄𝐃 𝐁𝐘 𝐂𝐎𝐎𝐋_𝐊𝐈𝐃 𝐓𝐄𝐂𝐇💙
-// Joke Command
+// Created by cool kid tech do not modify this file
 
-const axios = require('axios');
+const { cmd } = require("../command");
 
-module.exports = {
-  name: 'joke',
-  category: 'fun',
-  desc: 'Sends a random joke',
-  async execute(sock, m) {
-    const { sendMessage } = sock;
-    const { from } = m;
+cmd({
+  pattern: "joke",
+  desc: "Send a random joke",
+  category: "fun",
+  react: "🤣",
+  filename: __filename
+},
+async (conn, mek, m, { reply }) => {
+  const jokes = [
+    "Why don't scientists trust atoms? Because they make up everything!",
+    "I told my computer I needed a break, and now it won't stop sending me Kit-Kats.",
+    "Why did the scarecrow win an award? Because he was outstanding in his field!",
+    "Parallel lines have so much in common. It’s a shame they’ll never meet.",
+    "I'm reading a book about anti-gravity. It's impossible to put down!"
+  ];
 
-    try {
-      const res = await axios.get('https://v2.jokeapi.dev/joke/Any?safe-mode&type=single');
-      const joke = res.data?.joke || "I couldn't find a joke, but you're already funny.";
-
-      await sendMessage(from, { text: `😂 *Here's a joke:*\n${joke}` }, { quoted: m });
-
-    } catch (err) {
-      await sendMessage(from, { text: '❌ Failed to fetch a joke. Try again later!' }, { quoted: m });
-      console.error('Joke Error:', err.message);
-    }
-  }
-};
+  const randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
+  reply(`😂 *Here's a joke:*\n\n${randomJoke}`);
+});

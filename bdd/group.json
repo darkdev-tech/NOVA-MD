@@ -1,1 +1,14 @@
-
+{
+  "1203630432234-123456@g.us": {
+    "welcome": true,
+    "antidelete": false,
+    "antilink": true,
+    "leveling": true,
+    "customWelcome": "Welcome @user to *NOVA-MD*!",
+    "admins": ["1234567890@s.whatsapp.net"]
+  },
+  "1203987654321-987654@g.us": {
+    "welcome": false,
+    "antilink": false
+  }
+}

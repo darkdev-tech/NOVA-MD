@@ -1,37 +1,47 @@
-// command.js
-// command .js by cool kid tech
+// command.js - NOVA-MD Command Handler
+// Created by Cool Kid Tech
 
-const fs = require("fs");
-const path = require("path");
+const fs = require('fs');
+const path = require('path');
 
-// Array to hold all registered commands
-const commands = [];
+global.commands = [];
 
-function cmd(options, handler) {
-  // Push command object to command list
-  commands.push({ ...options, handler });
+function cmd(info, func) {
+    const commandObject = {
+        pattern: info.pattern,
+        alias: info.alias || [],
+        desc: info.desc || '',
+        category: info.category || 'main',
+        react: info.react || '',
+        filename: info.filename || '',
+        handler: func
+    };
+    global.commands.push(commandObject);
 }
 
-function loadCommands(dir = "./Commandes") {
-  fs.readdirSync(dir).forEach(file => {
-    const fullPath = path.join(dir, file);
-    const stat = fs.statSync(fullPath);
+function loadCommands(dir = path.join(__dirname, 'Commandes')) {
+    const categories = fs.readdirSync(dir);
 
-    if (stat.isDirectory()) {
-      loadCommands(fullPath); // Recursively load subfolders
-    } else if (file.endsWith(".js")) {
-      try {
-        require(fullPath);
-      } catch (e) {
-        console.error(`❌ Failed to load command file: ${file}`);
-        console.error(e);
-      }
+    for (const category of categories) {
+        const categoryPath = path.join(dir, category);
+        if (!fs.lstatSync(categoryPath).isDirectory()) continue;
+
+        const files = fs.readdirSync(categoryPath).filter(file => file.endsWith('.js'));
+
+        for (const file of files) {
+            const filePath = path.join(categoryPath, file);
+            try {
+                require(filePath);
+                console.log(`✅ Loaded: ${category}/${file}`);
+            } catch (err) {
+                console.error(`❌ Failed to load: ${category}/${file}\n`, err);
+            }
+        }
     }
-  });
 }
 
 module.exports = {
-  cmd,
-  commands,
-  loadCommands
+    cmd,
+    commands,
+    loadCommands
 };
